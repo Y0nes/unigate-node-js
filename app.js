@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express')
+const app = express();
 const cors = require('cors');
 const bodyPasrser = require('body-parser');
 const config = require('./config');
@@ -15,9 +16,13 @@ const authen = require('./routes/authen_routes');
 
 
 // middleware
-const app = express();
 app.use(cors());
+app.use(express.json());
 app.use(bodyPasrser.json());
+
+app.get('/', (req,res) => {
+    res.send('its working fine for now!!');
+})
 
 // proffesors
 app.use('/prof', prof.routes);
@@ -46,9 +51,8 @@ app.use('/sub', subjects.routes)
 // use a middleware for user modifying routes
 app.use('/modify', user.routes)
 
-app.listen(config.port, ()=> {
-    console.log(`app is running on port ${config.port}`)
-});
+const port = config.port || '5000'
+app.listen(port, ()=> console.log(`app is running on port ${port}`));
 
 
 
