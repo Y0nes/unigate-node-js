@@ -1,4 +1,6 @@
-const redis = require('redis');
+var redis = require('redis');
+var url = require('url');
+
 // const {redisConfig} = require('./config');
 
 // authenticate to redis cli & hosting
@@ -12,12 +14,11 @@ const redis = require('redis');
 //  client.on("error", function(error) {
 //    console.error(error);
 //  });
-var url = require('url');
+
+
 var redisURL = url.parse(process.env.REDISCLOUD_URL);
-var client = redis.createClient(redisURL.port, redisURL.hostname, {
-  no_ready_check: true,
-});
-client.auth(redisURL.auth.split(':')[1]);
+var client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+client.auth(redisURL.auth.split(":")[1]);
 
 // check the host by setting a value
 // when the server is on redis should be on as well
